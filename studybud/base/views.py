@@ -1,21 +1,49 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
+# Q lets us run more complex queries with Ands and Ors
+from django.db.models import Q
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 from .models import Room, Topic
 from .forms import RoomForm
 
-# rooms = [
-#     {'id':1, 'name': 'learn python!'},
-#     {'id':2, 'name': 'learn C++!'},
-#     {'id':3, 'name': 'learn PHP (the best language)!'},
-# ]
+def loginPage(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        try:
+            user = User.objects.get(username=username)
+        except:
+            messages.error(request, 'User does not exist')
+
+        user = authenticate(request,username=username,password=password)
+
+        if user is not None:
+            login(request,user)
+            return redirect('home')
+        else:
+            messages.error(request, 'Username or password is wrong')
+
+    context = {}
+    return render(request,'base/login_register.html',context)
+
+def logoutUser(request):
+    logout(request)
+    return redirect('home')
 
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     # icontains means ignore upper or lower case in contains method
-    rooms = Room.objects.filter(topic__name__icontains= q)
+    rooms = Room.objects.filter(Q(topic__name__icontains= q)
+    | Q(name__icontains= q)
+    | Q(description__icontains= q)
+    )
 
     topics = Topic.objects.all()
+    room_count = rooms.count()
 
-    context = {'rooms': rooms, 'topics': topics}
+    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count}
     return render(request, 'base/home.html', context)
 
 def room(request, pk):
