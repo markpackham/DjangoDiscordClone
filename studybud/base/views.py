@@ -73,6 +73,8 @@ def home(request):
     context = {'rooms': rooms, 'topics': topics, 'room_count': room_count, 'room_messages':room_messages}
     return render(request, 'base/home.html', context)
 
+def userProfile():
+    return
 
 def room(request, pk):
     room = Room.objects.get(id=pk)
@@ -145,3 +147,14 @@ def deleteMessage(request, pk):
         message.delete()
         return redirect('home')
     return render(request, 'base/delete.html', {'obj': message})
+
+
+@login_required(login_url='login')
+def updateUser():
+    return
+
+def topicsPage():
+    return
+
+def activityPage():
+    return
