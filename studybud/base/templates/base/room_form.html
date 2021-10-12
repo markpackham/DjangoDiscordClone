@@ -28,10 +28,9 @@
                         <input required type="text" name="topic" list="topic-list" />
                         <datalist id="topic-list">
                             <select name="" id="room_topic">
-                                <option value="Python">Python</option>
-                                <option value="PHP">PHP</option>
-                                <option value="Ruby">Ruby</option>
-                                <option value="Pearl">Pearl</option>
+                                {% for topic in topics %}
+                                <option value="{{topic.name}}">{{topic.name}}</option>
+                                {% endfor %}
                             </select>
                         </datalist>
                     </div>
