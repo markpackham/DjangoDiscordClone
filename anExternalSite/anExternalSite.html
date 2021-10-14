@@ -8,13 +8,14 @@
 </head>
 <body>
     <h1>Requesting StudyBud Rooms</h1>
-
+    <p>This file will only load data if placed away from the project folder otherwise you'll get CORS errors</p>
+    <p>The "External Site" is just here to demo the API working when the studybud app is running</p>
     <div id="rooms-container">
 
     </div>
 
     <script>
-        let roomsContrainer = document.getElementById('rooms-container');
+        let roomsContainer = document.getElementById('rooms-container');
 
         let getRooms = async () => {
             let response = await fetch('http://127.0.0.1:8000/api/rooms')
@@ -25,7 +26,7 @@
                 let row = `<div>
                     <h3>${room.name}</h3>
                     </div>`
-                roomContrainer.innerHTML += row;
+                roomsContainer.innerHTML += row;
             }
         }
         getRooms();
