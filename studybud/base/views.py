@@ -4,10 +4,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 # Q lets us run more complex queries with Ands and Ors
 from django.db.models import Q
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from .models import Room, Topic, Message
+from .models import Room, Topic, Message, User
 from .forms import RoomForm, UserForm
 
 def loginPage(request):
